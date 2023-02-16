@@ -39,8 +39,12 @@ def get_information():
 
 
 def write_information():
-    with open('data.txt', 'r', encoding='utf-8') as file:
-        last_write = file.read()
+    if not os.path.exists('data.txt'):
+        with open('data.txt', 'w', encoding='utf-8') as file:
+            file.write('')
+    else:
+        with open('data.txt', 'r', encoding='utf-8') as file:
+            last_write = file.read()
 
     if content_api_information == '' or str(content_api_information) != last_write:
         with open('data.txt', 'w', encoding='utf-8') as file:

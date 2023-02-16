@@ -1,6 +1,3 @@
-# тестовое задание:
-# https://docs.google.com/document/d/1w4wTqvP4coGwCKstok9A1uo40ToYfxJD7aCBXV9RTB8/edit
-
 from __future__ import print_function
 import os.path
 import pickle

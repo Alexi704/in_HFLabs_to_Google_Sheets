@@ -8,7 +8,7 @@ from googleapiclient.discovery import build
 import requests
 from bs4 import BeautifulSoup
 
-content_api_information = None
+content_api_information = ''
 url_donor = 'https://confluence.hflabs.ru/pages/viewpage.action?pageId=1181220999'
 SAMPLE_RANGE_NAME = 'API Code!A1:B20'
 
@@ -36,6 +36,19 @@ def get_information():
             x = []
 
     content_api_information.insert(0, header_api_information)
+
+
+def write_information():
+    with open('data.txt', 'r', encoding='utf-8') as file:
+        last_write = file.read()
+
+    if content_api_information == '' or str(content_api_information) != last_write:
+        with open('data.txt', 'w', encoding='utf-8') as file:
+            file.write(f'{content_api_information}')
+            print('Изменения в источнике! Обновляем данные в гугл доках!')
+            return True
+    else:
+        print('Информация в первоисточнике НЕ изменялась. Можно спасть спокойно )))')
 
 
 class GoogleSheet:
@@ -78,10 +91,11 @@ class GoogleSheet:
 
 def main():
     get_information()
-    gs = GoogleSheet()
-    test_range = SAMPLE_RANGE_NAME
-    test_values = content_api_information
-    gs.update_range_values(test_range, test_values)
+    if write_information():
+        gs = GoogleSheet()
+        test_range = SAMPLE_RANGE_NAME
+        test_values = content_api_information
+        gs.update_range_values(test_range, test_values)
 
 
 if __name__ == '__main__':
